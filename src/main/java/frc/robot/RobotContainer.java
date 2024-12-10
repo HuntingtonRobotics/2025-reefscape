@@ -6,8 +6,6 @@ package frc.robot;
 
 import java.util.Optional;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -22,7 +20,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AimAndRange;
 import frc.robot.commands.Autos;
-import frc.robot.commands.DriveStraight;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.LauncherArm;
@@ -49,8 +46,6 @@ public class RobotContainer {
   public final Trigger limitSwitchTrigger = new Trigger(limitSwitch::get);
 
   Alliance assignedAlliance;
-  SwerveRequest.FieldCentric swerveCmd;
-  public DriveStraight m_driveStraightAuto = new DriveStraight(swerve.drivetrain);
 
   /*The gamepad provided in the KOP shows up like an XBox controller if the mode switch is set to X mode using the
    * switch on the top.*/
@@ -110,16 +105,19 @@ public class RobotContainer {
   }
 
   private void configureDrivetrainBindings() {
-    
-    swerve.drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
+    // The main drivetrain command to move the robot - the swerve lib will execute this command periodically
+    swerve.drivetrain.setDefaultCommand(
         swerve.drivetrain.applyRequest(() -> 
           swerve.drive.withVelocityY(-m_driverController.getLeftY() * swerve.MaxSpeed) // Drive forward with negative Y (forward)
-                      .withVelocityX(m_driverController.getLeftX() * swerve.MaxSpeed) // Drive left with negative X (left)
-                      .withRotationalRate(-m_driverController.getRightX() * swerve.MaxAngularRate) // Drive counterclockwise with negative X (left)
+                      .withVelocityX(m_driverController.getLeftX() * swerve.MaxSpeed) // Drive left/right with X (left)
+                      .withRotationalRate(-m_driverController.getRightX() * swerve.MaxAngularRate) // Rotate counterclockwise with negative X (left)
         ));
 
+    // Point wheels 
     m_driverController.b().whileTrue(swerve.drivetrain
         .applyRequest(() -> swerve.point.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
+
+    // Brake
     m_driverController.x().whileTrue(swerve.drivetrain.applyRequest(() -> swerve.brake));
 
     // reset the field-centric heading
