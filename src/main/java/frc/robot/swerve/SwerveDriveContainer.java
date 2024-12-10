@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.swerve;
 
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.TunerConstants;
 
 public class SwerveDriveContainer {
     public double MaxSpeed = 4.5; // meters per second desired top speed

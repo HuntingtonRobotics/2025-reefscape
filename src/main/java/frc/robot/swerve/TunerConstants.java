@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.swerve;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
@@ -8,6 +8,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.ClosedLoopOutputType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
 
 import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class TunerConstants {
     // Both sets of gains need to be tuned to your individual robot.
